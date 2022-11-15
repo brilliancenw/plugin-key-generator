@@ -39,7 +39,7 @@ class PluginKeyGeneratorUtility extends Utility
      */
     public static function displayName(): string
     {
-        return Craft::t('plugin-key-generator', 'PluginKeyGeneratorUtility');
+        return Craft::t('plugin-key-generator', 'Plugin Key Generator');
     }
 
     /**

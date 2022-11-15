@@ -39,7 +39,10 @@ class Settings extends Model
      *
      * @var string
      */
-    public $someAttribute = 'Some Default';
+    public $apiToken = '';
+    public $username = '';
+    public $pluginHandles = '';
+    public $pluginEditions = '';
 
     // Public Methods
     // =========================================================================
@@ -57,8 +60,11 @@ class Settings extends Model
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            ['apiToken', 'string'],
+            ['username', 'string'],
+            ['pluginHandles', 'string'],
+            ['pluginEditions', 'string'],
+
         ];
     }
 }

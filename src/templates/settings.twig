@@ -17,10 +17,34 @@
 
 {% do view.registerAssetBundle("brilliance\\pluginkeygenerator\\assetbundles\\pluginkeygenerator\\PluginKeyGeneratorAsset") %}
 
-{{ forms.textField({
-    label: 'Some Field',
-    instructions: 'Enter some setting here.',
-    id: 'someAttribute',
-    name: 'someAttribute',
-    value: settings['someAttribute']})
-}}
+<h1>Plugin Key Generator</h1>
+<p>This plugin key generator allows plugin developers to create license keys for their customers.  These keys bypass the Plugin store, and can be used for perpetual licenses, giveaways, short-term trials, etc.</p>
+<p>Of course, this only will function on plugins that are currently managed by your account with your username.</p>
+<p>Reference: <a href="https://docs.api.craftcms.com/plugin-licenses.html" target="_blank">https://docs.api.craftcms.com/plugin-licenses.html</a></p>
+{{ forms.autosuggestField({
+    label: "Craft Console Username",
+    name: "username",
+    value: settings.username ?? '',
+    suggestEnvVars: true
+}) }}
+
+{{ forms.autosuggestField({
+    label: "Craft Console API Key",
+    name: "apiToken",
+    value: settings.apiToken ?? '',
+    suggestEnvVars: true
+}) }}
+
+    {{ forms.textfield({
+        label: "List of Plugin Handles (leave blank to always enter manually)",
+        name: "pluginHandles",
+        value: settings.pluginHandles,
+        placeholder: "algolia-sync,plugin-key-generator"
+    }) }}
+
+    {{ forms.textfield({
+        label: "List of Plugin Edition Handles (leave blank to always enter manually)",
+        name: "pluginEditions",
+        value: settings.pluginEditions,
+        placeholder: "standard,pro"
+    }) }}

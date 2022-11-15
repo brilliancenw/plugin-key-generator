@@ -85,11 +85,12 @@ class PluginKeyGeneratorUtility extends Utility
     {
         Craft::$app->getView()->registerAssetBundle(PluginKeyGeneratorUtilityUtilityAsset::class);
 
-        $someVar = 'Have a nice day!';
+        $settings = PluginKeyGenerator::$plugin->getSettings();
+
         return Craft::$app->getView()->renderTemplate(
             'plugin-key-generator/_components/utilities/PluginKeyGeneratorUtility_content',
             [
-                'someVar' => $someVar
+                'settings' => $settings
             ]
         );
     }

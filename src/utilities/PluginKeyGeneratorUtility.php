@@ -57,9 +57,9 @@ class PluginKeyGeneratorUtility extends Utility
     /**
      * Returns the path to the utility's SVG icon.
      *
-     * @return string|null The path to the utility SVG icon
+     * @return string The path to the utility SVG icon
      */
-    public static function iconPath()
+    public static function iconPath(): string
     {
         return Craft::getAlias("@brilliance/pluginkeygenerator/assetbundles/pluginkeygeneratorutilityutility/dist/img/PluginKeyGeneratorUtility-icon.svg");
     }

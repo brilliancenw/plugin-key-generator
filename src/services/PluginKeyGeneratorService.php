@@ -46,9 +46,9 @@ class PluginKeyGeneratorService extends Component
      *
      *     PluginKeyGenerator::$plugin->pluginKeyGeneratorService->generateKeyService($config)
      *
-     * @return mixed
+     * @return string
      */
-    public function generateKeyService($config)
+    public function generateKeyService($config): string
     {
         $expiresOn = null;
         $expirable = false;

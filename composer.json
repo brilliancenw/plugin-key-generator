@@ -1,6 +1,6 @@
 {
     "name": "brilliance/plugin-key-generator",
-    "description": "Creates a utility for Craft CMS Plugin Developers to generate keys for their customers.  Simply a front-end for the API (https://docs.api.craftcms.com/plugin-licenses.html#create-a-plugin-license)",
+    "description": "A utility for Craft CMS Plugin Developers to generate keys for their customers.  Simply a front-end for the API (https://docs.api.craftcms.com/plugin-licenses.html#create-a-plugin-license)",
     "type": "craft-plugin",
     "keywords": [
         "craft",
@@ -13,7 +13,7 @@
         "docs": "https://github.com/brilliancenw/plugin-key-generator/blob/master/README.md",
         "issues": "https://github.com/brilliancenw/plugin-key-generator/issues"
     },
-    "license": "MIT",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Brilliance",

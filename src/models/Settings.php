@@ -40,10 +40,10 @@ class Settings extends Model
      *
      * @var string
      */
-    public $apiToken = '';
-    public $username = '';
-    public $pluginHandles = '';
-    public $pluginEditions = '';
+    public string $apiToken = '';
+    public string $username = '';
+    public string $pluginHandles = '';
+    public string $pluginEditions = '';
 
     // Public Methods
     // =========================================================================
@@ -56,26 +56,25 @@ class Settings extends Model
      *
      * More info: http://www.yiiframework.com/doc-2.0/guide-input-validation.html
      *
-     * @return array
+     * @return bool|string
      */
 
-    public function getApiToken()
+    public function getApiToken(): bool|string
     {
         return App::parseEnv($this->apiToken);
     }
-    public function getUsername()
+    public function getUsername(): bool|string|null
     {
         return App::parseEnv($this->username);
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             ['apiToken', 'string'],
             ['username', 'string'],
             ['pluginHandles', 'string'],
             ['pluginEditions', 'string'],
-
         ];
     }
 }

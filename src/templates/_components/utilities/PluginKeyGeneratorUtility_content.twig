@@ -26,67 +26,138 @@
 <p>Reference: <a href="https://docs.api.craftcms.com/plugin-licenses.html" target="_blank">https://docs.api.craftcms.com/plugin-licenses.html</a></p>
 
 <a href="{{ cpUrl('settings/plugins/plugin-key-generator') }}">Visit the Settings Page to set your Craft Console Account Settings</a>
+<hr>
+<div id="licenseform">
+    <form action="{{ actionUrl('plugin-key-generator/default/generate-key') }}" method="post" id="pluginkeygeneratorform">
+        {{ csrfInput() }}
+        {% if settings.pluginHandles | length > 0 %}
+            {% set handles = settings.pluginHandles | split(',') %}
 
-<form action="{{ actionUrl('plugin-key-generator/default/generate-key') }}" method="post" id="pluginkeygenerator">
-    {{ csrfInput() }}
+            <div id="plugin-field" class="field">
+                <div class="heading">
+                    <label id="plugin-label" for="plugin">Plugin Handle</label>
+                </div>
+                <div class="select">
+                    <select name="plugin" id="plugin" class="required-field">
+                        {% for handle in handles %}
+                            <option value="{{ handle }}">{{ handle }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% else %}
+                {{ forms.textfield({
+                    label: "Plugin Handle",
+                    name: "plugin",
+                    id: "plugin",
+                    class: "required-field"
+                }) }}
+        {% endif %}
 
-    {% if settings.pluginHandles | length > 0 %}
-        {% set handles = settings.pluginHandles | split(',') %}
-        <h3>Plugin Handle</h3>
-            {{ forms.select({
-                label: "Plugin Handle",
-                name: "plugin",
-                options: handles
-            }) }}
+        {% if settings.pluginEditions | length > 0 %}
+            {% set editions = settings.pluginEditions | split(',') %}
+            <div id="edition-field" class="field">
+                <div class="heading">
+                    <label id="edition-label" for="edition">Edition Handle</label>
+                </div>
+                <div class="select">
+                    <select name="edition" id="edition" class="required-field">
+                        {% for edition in editions %}
+                            <option value="{{ edition }}">{{ edition }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
         {% else %}
             {{ forms.textfield({
-                label: "Plugin Handle",
-                name: "plugin",
+                label: "Edition Handle",
+                placeholder: "standard",
+                name: "edition",
+                id: "edition",
+                class: "required-field"
             }) }}
-    {% endif %}
+        {% endif %}
 
-    {% if settings.pluginEditions | length > 0 %}
-        {% set editions = settings.pluginEditions | split(',') %}
-        <h3>Plugin Edition</h3>
-        {{ forms.select({
-            label: "Plugin Edition Handle",
-            name: "edition",
-            options: editions
-        }) }}
-    {% else %}
         {{ forms.textfield({
-            label: "Edition Handle",
-            placeholder: "standard",
-            name: "edition"
+            label: "Customer Email Address",
+            name: "email",
+            id: "email",
+            class: "required-field"
         }) }}
-    {% endif %}
+        <hr>
+        <h3>Can the license Key Expire?</h3>
+        {{ forms.lightswitch({
+            name: "expirable",
+            onLabel: "Can Expire",
+            offLabel: "Never Expires"
+        }) }}
+        <p>If the license can expire, what date should it expire on? (default is one year from today)</p>
+        {{ forms.date({
+            label: "Expiration Date",
+            name: "expiresOn",
+            value: 'now'|date_modify("+1 year")
+        }) }}
+        <hr>
+        <h3>Customer Notes</h3>
+        <p>customer can read these!</p>
+        {{ forms.textarea({
+            label: "Customer Notes",
+            name: "notes"
+        }) }}
+        <h3>Private Notes</h3>
+        <p>Never shared with the customer</p>
+        {{ forms.textarea({
+            label: "Customer Notes",
+            name: "privateNotes"
+        }) }}
+        <br>
+        <input type="submit" class="btn submit" value="Generate Key" />
+    </form>
+</div>
 
-    {{ forms.textfield({
-        label: "Customer Email Address",
-        name: "email"
-    }) }}
+<div id="fetchingcontent" class="ml-auto mr-auto w-[100%]" style="display: none;">
+    <div id="graphic" class="spinner big"></div>
+    <div id="status">Fetching...</div>
+</div>
 
-    <h3>Can the license Key Expire?</h3>
-    {{ forms.lightswitch({
-        name: "expirable"
-    }) }}
-    <h3>Expiration Date</h3>
-    {{ forms.date({
-        label: "Expiration Date",
-        name: "expiresOn"
-    }) }}
-    <h3>Customer Notes (customer can read these!)</h3>
-    {{ forms.textarea({
-        label: "Customer Notes",
-        name: "notes"
-    }) }}
-    <h3>Private Notes (never shared with the customer)</h3>
-    {{ forms.textarea({
-        label: "Customer Notes",
-        name: "privateNotes"
-    }) }}
+<div id="licensedetails" style="display:none;">
+    <h2>License Details</h2>
 
-    <br>
-
-    <input type="submit" class="btn submit" value="Generate Key" />
-</form>
+    <table class="data fullwidth fixed-layout" dir="ltr">
+        <tbody>
+        <tr>
+            <th class="light">License Key</th>
+            <td>{{ forms.copytext({
+                    id: "license-key-value",
+                    label: "License Key"
+                }) }}</td>
+        </tr>
+        <tr>
+            <th class="light">Plugin Licensed To:</th>
+            <td id="license-email"></td>
+        </tr>
+        <tr>
+            <th class="light">Plugin Handle:</th>
+            <td id="license-pluginHandle"></td>
+        </tr>
+        <tr>
+            <th class="light">Plugin Edition:</th>
+            <td id="license-edition"></td>
+        </tr>
+        <tr>
+            <th class="light">Trial?</th>
+            <td id="license-trial"></td>
+        </tr>
+        <tr>
+            <th class="light">Expiration?</th>
+            <td id="license-expirable"></td>
+        </tr>
+        <tr>
+            <th class="light">Notes:</th>
+            <td id="license-notes"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="#" class="btn" id="pagereset">Reset</a>
+</div>

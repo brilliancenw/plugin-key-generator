@@ -16,6 +16,7 @@ use brilliance\pluginkeygenerator\utilities\PluginKeyGeneratorUtility as PluginK
 
 use Craft;
 use craft\base\Plugin;
+use craft\behaviors\EnvAttributeParserBehavior;
 use craft\services\Plugins;
 use craft\events\PluginEvent;
 use craft\web\UrlManager;
@@ -177,6 +178,17 @@ class PluginKeyGenerator extends Plugin
     {
         return new Settings();
     }
+
+    protected function defineBehaviors(): array
+    {
+        return [
+            'parser' => [
+                'class' => EnvAttributeParserBehavior::class,
+                'attributes' => ['apiToken','username'],
+            ],
+        ];
+    }
+
 
     /**
      * Returns the rendered settings HTML, which will be inserted into the content

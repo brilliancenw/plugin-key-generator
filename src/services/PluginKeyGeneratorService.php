@@ -15,6 +15,11 @@ use brilliance\pluginkeygenerator\PluginKeyGenerator;
 use Craft;
 use craft\base\Component;
 
+use craft\helpers\Json;
+use DateTime;
+use DateTimeInterface;
+use GuzzleHttp\Client;
+
 /**
  * PluginKeyGeneratorService Service
  *
@@ -39,17 +44,56 @@ class PluginKeyGeneratorService extends Component
      *
      * From any other plugin file, call it like this:
      *
-     *     PluginKeyGenerator::$plugin->pluginKeyGeneratorService->exampleService()
+     *     PluginKeyGenerator::$plugin->pluginKeyGeneratorService->generateKeyService($config)
      *
      * @return mixed
      */
-    public function exampleService()
+    public function generateKeyService($config)
     {
-        $result = 'something';
+        $expiresOn = null;
+        $expirable = false;
+
+        $response = [];
+        $response['success'] = false;
+        $response['input'] = $config;
         // Check our Plugin's settings for `someAttribute`
-        if (PluginKeyGenerator::$plugin->getSettings()->someAttribute) {
+        $apiKey = PluginKeyGenerator::$plugin->settings->getApiToken();
+        $username = PluginKeyGenerator::$plugin->settings->getUsername();
+
+        $response['apiKey'] = $apiKey;
+        $response['username'] = $username;
+
+        $client = new \GuzzleHttp\Client();
+        if (isset($config['expirable']) && $config['expirable'] > 0 && isset($config['expiresOn']['date']) && $config['expiresOn']['date'] != "") {
+            $datetime = new DateTime();
+            $expiresOn = $datetime->createFromFormat('m/d/Y', $config['expiresOn']['date'])->format(DateTimeInterface::ATOM);
         }
 
-        return $result;
+        if (isset($config['expirable']) && $config['expirable'] > 0) {
+            $expirable = true;
+        }
+
+        $response = $client->request(
+            'POST',
+            'https://api.craftcms.com/v1/plugin-licenses',
+            [
+                'auth' => [
+                    $username,
+                    $apiKey
+                ],
+                'json' => [
+                    'edition' => $config['edition'],
+                    'plugin' => $config['plugin'],
+                    'email' => $config['email'],
+                    'expirable' => $expirable,
+                    'expiresOn' => $expiresOn,
+                    'notes' => $config['notes'],
+                    'privateNotes' => $config['privateNotes']
+                ],
+            ]
+        );
+
+        return $response->getBody()->getContents();
+
     }
 }

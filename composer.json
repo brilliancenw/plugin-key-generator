@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "craftcms/cms": "^3.0.0 <4.*",
+        "craftcms/cms": ">=3.4.18 <4",
         "guzzlehttp/guzzle": "^7"
     },
     "autoload": {

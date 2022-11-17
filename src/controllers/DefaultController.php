@@ -46,7 +46,7 @@ class DefaultController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = ['index', 'do-something'];
+    protected $allowAnonymous = [];
 
     // Public Methods
     // =========================================================================
@@ -70,10 +70,14 @@ class DefaultController extends Controller
      *
      * @return mixed
      */
-    public function actionDoSomething()
+    public function actionGenerateKey()
     {
-        $result = 'Welcome to the DefaultController actionDoSomething() method';
+        $inputVariables = Craft::$app->request->getBodyParams();
 
-        return $result;
+        $response = PluginKeyGenerator::$plugin->pluginKeyGeneratorService->generateKeyService($inputVariables);
+
+        header('Content-Type: application/json');
+        print $response;
+        exit;
     }
 }

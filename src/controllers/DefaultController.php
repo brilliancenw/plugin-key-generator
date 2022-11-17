@@ -46,23 +46,10 @@ class DefaultController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = [];
+    protected int|bool|array $allowAnonymous = [];
 
     // Public Methods
     // =========================================================================
-
-    /**
-     * Handle a request going to our plugin's index action URL,
-     * e.g.: actions/plugin-key-generator/default
-     *
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $result = 'Welcome to the DefaultController actionIndex() method';
-
-        return $result;
-    }
 
     /**
      * Handle a request going to our plugin's actionDoSomething URL,

@@ -55,7 +55,7 @@ class PluginKeyGenerator extends Plugin
      *
      * @var PluginKeyGenerator
      */
-    public static $plugin;
+    public static PluginKeyGenerator $plugin;
 
     // Public Properties
     // =========================================================================
@@ -65,21 +65,21 @@ class PluginKeyGenerator extends Plugin
      *
      * @var string
      */
-    public $schemaVersion = '3.0.0';
+    public string $schemaVersion = '3.0.0';
 
     /**
      * Set to `true` if the plugin should have a settings view in the control panel.
      *
      * @var bool
      */
-    public $hasCpSettings = true;
+    public bool $hasCpSettings = true;
 
     /**
      * Set to `true` if the plugin should have its own section (main nav item) in the control panel.
      *
      * @var bool
      */
-    public $hasCpSection = false;
+    public bool $hasCpSection = false;
 
     // Public Methods
     // =========================================================================

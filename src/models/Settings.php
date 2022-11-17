@@ -14,6 +14,7 @@ use brilliance\pluginkeygenerator\PluginKeyGenerator;
 
 use Craft;
 use craft\base\Model;
+use craft\helpers\App;
 
 /**
  * PluginKeyGenerator Settings Model
@@ -39,7 +40,10 @@ class Settings extends Model
      *
      * @var string
      */
-    public $someAttribute = 'Some Default';
+    public $apiToken = '';
+    public $username = '';
+    public $pluginHandles = '';
+    public $pluginEditions = '';
 
     // Public Methods
     // =========================================================================
@@ -54,11 +58,24 @@ class Settings extends Model
      *
      * @return array
      */
+
+    public function getApiToken()
+    {
+        return App::parseEnv($this->apiToken);
+    }
+    public function getUsername()
+    {
+        return App::parseEnv($this->username);
+    }
+
     public function rules()
     {
         return [
-            ['someAttribute', 'string'],
-            ['someAttribute', 'default', 'value' => 'Some Default'],
+            ['apiToken', 'string'],
+            ['username', 'string'],
+            ['pluginHandles', 'string'],
+            ['pluginEditions', 'string'],
+
         ];
     }
 }
